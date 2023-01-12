@@ -3,27 +3,15 @@ package me.wlghsp.inflearnthejavatest.chap02;
 public class PasswordStrengthMeter {
     public PasswordStrength meter(String s) {
         if (s == null || s.isEmpty()) return PasswordStrength.INVALID;
-        boolean lengthEnough = s.length() >= 8;
-        boolean containsNum = meetsContainingNumberCriteria(s);
-        boolean containsUpp = meetsContainingUppercaseCriteria(s);
-        // 길이가 8글자 이상인 조건만 충족하는 경우
-        if (lengthEnough && !containsNum && !containsUpp) {
-            return PasswordStrength.WEAK;
-        }
-        // 숫자 포함 조건만 충족하는 경우
-        if (!lengthEnough && containsNum && !containsUpp) {
-            return PasswordStrength.WEAK;
-        }
-        //
-        if (!lengthEnough && !containsNum && containsUpp) {
-            return PasswordStrength.WEAK;
-        }
+        int metCounts = 0;
+        if (s.length() >= 8) metCounts++;
+        if (meetsContainingNumberCriteria(s)) metCounts++;
+        if (meetsContainingUppercaseCriteria(s)) metCounts++;
 
-        if (!lengthEnough) {
-            return PasswordStrength.NORMAL;
-        }
-        if (!containsNum) return PasswordStrength.NORMAL;
-        if (!containsUpp) return PasswordStrength.NORMAL;
+        // 한 가지 조건만 충족하는 경우 패스워트 강도는 약함
+        if (metCounts == 1) return PasswordStrength.WEAK;
+        if (metCounts == 2) return PasswordStrength.NORMAL;
+
         return PasswordStrength.STRONG;
     }
 
