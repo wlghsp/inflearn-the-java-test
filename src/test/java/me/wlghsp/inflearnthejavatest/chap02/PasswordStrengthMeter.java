@@ -9,7 +9,7 @@ public class PasswordStrengthMeter {
         if (meetsContainingUppercaseCriteria(s)) metCounts++;
 
         // 한 가지 조건만 충족하는 경우 패스워트 강도는 약함
-        if (metCounts == 1) return PasswordStrength.WEAK;
+        if (metCounts <= 1) return PasswordStrength.WEAK;
         if (metCounts == 2) return PasswordStrength.NORMAL;
 
         return PasswordStrength.STRONG;
