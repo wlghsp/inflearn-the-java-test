@@ -4,13 +4,14 @@ public class PasswordStrengthMeter {
     public PasswordStrength meter(String s) {
         if (s == null || s.isEmpty()) return PasswordStrength.INVALID;
         boolean lengthEnough = s.length() >= 8;
-
-        if (s.length() < 8) {
-            return PasswordStrength.NORMAL;
-        }
         boolean containsNum = meetsContainingNumberCriteria(s);
         boolean containsUpp = meetsContainingUppercaseCriteria(s);
+        // 길이가 8글자 이상인 조건만 충족하는 경우
         if (lengthEnough && !containsNum && !containsUpp) {
+            return PasswordStrength.WEAK;
+        }
+        // 숫자 포함 조건만 충족하는 경우
+        if (!lengthEnough && containsNum && !containsUpp) {
             return PasswordStrength.WEAK;
         }
 
