@@ -1,22 +1,28 @@
 package me.wlghsp.inflearnthejavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest {
 
     @Test
     @DisplayName("스터디 만들기")
+    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "WLGHSP")
     void create_new_study() {
-        Study study = new Study();
-        assertNotNull(study);
-        System.out.println("create");
+        Study actual = new Study(10);
+        assertThat(actual.getLimit()).isGreaterThan(0);
     }
 
     @Test
     @DisplayName("스터디 다시 만들기")
+    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
     void create_new_study_again() {
         System.out.println("create1");
     }
