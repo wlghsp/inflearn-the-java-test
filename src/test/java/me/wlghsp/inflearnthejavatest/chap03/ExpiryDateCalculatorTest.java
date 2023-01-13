@@ -1,6 +1,5 @@
 package me.wlghsp.inflearnthejavatest.chap03;
 
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -15,9 +14,22 @@ public class ExpiryDateCalculatorTest {
         assertExpriryDate(LocalDate.of(2019, 5, 5), 10_000, LocalDate.of(2019, 6, 5));
     }
 
+    @Test
+    void 납부일과_한달_뒤_일자가_같지_않음() {
+        assertExpriryDate(LocalDate.of(2019, 1, 31), 10_000,
+                LocalDate.of(2019, 2, 28));
+        assertExpriryDate(LocalDate.of(2019, 5, 31), 10_000,
+                LocalDate.of(2019, 6, 30));
+        assertExpriryDate(LocalDate.of(2020, 1, 31), 10_000,
+                LocalDate.of(2020, 2, 29));
+
+    }
+
     private void assertExpriryDate(LocalDate billingDate, int payAmount, LocalDate expectedExpiryDate) {
         ExpiryDateCalculator cal = new ExpiryDateCalculator();
         LocalDate realExpiryDate = cal.calculateExpiryDate(billingDate, payAmount);
         assertEquals(expectedExpiryDate, realExpiryDate);
     }
+
+
 }
